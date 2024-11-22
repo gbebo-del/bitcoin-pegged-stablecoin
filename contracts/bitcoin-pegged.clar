@@ -70,7 +70,7 @@
     (max-mintable (/ (* total-stablecoin-value (var-get collateralization-ratio)) u100))
   )
   (<=
-    (+ mint-amount (ft-get-total-supply btc-stable-coin))
+    (+ mint-amount (ft-get-supply btc-stable-coin))
     max-mintable
   ))
 )
@@ -109,5 +109,5 @@
 )
 
 (define-read-only (get-stablecoin-supply)
-  (ft-get-total-supply btc-stable-coin)
+  (ft-get-supply btc-stable-coin)
 )
