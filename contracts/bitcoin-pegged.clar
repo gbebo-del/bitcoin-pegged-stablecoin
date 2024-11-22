@@ -12,3 +12,7 @@
 (define-constant ERR-PRICE-DEVIATION (err u4))
 (define-constant ERR-MINT-FAILED (err u5))
 (define-constant ERR-BURN-FAILED (err u6))
+
+;; Oracle price feed contract (simulated)
+(define-read-only (get-btc-price)
+  (ok u50000_00)) ;; Example: BTC price at $50,000
