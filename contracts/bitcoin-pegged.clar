@@ -92,3 +92,13 @@
     (ok true)
   ))
 )
+
+;; Admin functions
+(define-public (update-collateralization-ratio (new-ratio uint))
+  (begin
+    (asserts! (is-eq tx-sender CONTRACT-OWNER) ERR-UNAUTHORIZED)
+    (asserts! (and (>= new-ratio u100) (<= new-ratio u200)) ERR-INVALID-AMOUNT)
+    (var-set collateralization-ratio new-ratio)
+    (ok true)
+  )
+)
