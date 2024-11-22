@@ -61,3 +61,16 @@
     (ok btc-equivalent)
   ))
 )
+
+;; Check if minting is possible based on reserves and collateralization
+(define-private (can-mint (mint-amount uint))
+  (let (
+    (current-btc-price (unwrap! (get-btc-price) false))
+    (total-stablecoin-value (/ (* (var-get total-reserves) current-btc-price) PRECISION))
+    (max-mintable (/ (* total-stablecoin-value (var-get collateralization-ratio)) u100))
+  )
+  (<=
+    (+ mint-amount (ft-get-total-supply btc-stable-coin))
+    max-mintable
+  ))
+)
