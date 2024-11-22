@@ -85,12 +85,19 @@
     ;; Validate liquidation conditions
     (asserts! (is-eq tx-sender CONTRACT-OWNER) ERR-UNAUTHORIZED)
     (asserts! (> liquidation-amount u0) ERR-INVALID-AMOUNT)
+    (asserts! (is-trusted-address underwater-address) ERR-UNAUTHORIZED)
     
     ;; Burn underwater position
     (try! (ft-burn? btc-stable-coin liquidation-amount underwater-address))
     
     (ok true)
   ))
+)
+
+(define-private (is-trusted-address (address principal))
+  ;; Add logic to check if the address is trusted
+  ;; For example, check against a list of known addresses
+  true
 )
 
 ;; Admin functions
