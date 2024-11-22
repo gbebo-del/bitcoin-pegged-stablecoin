@@ -74,3 +74,21 @@
     max-mintable
   ))
 )
+
+;; Liquidation mechanism
+(define-public (liquidate (underwater-address principal) (liquidation-amount uint))
+  (let (
+    (current-btc-price (unwrap! (get-btc-price) ERR-UNAUTHORIZED))
+    (user-balance (ft-get-balance btc-stable-coin underwater-address))
+  )
+  (begin
+    ;; Validate liquidation conditions
+    (asserts! (is-eq tx-sender CONTRACT-OWNER) ERR-UNAUTHORIZED)
+    (asserts! (> liquidation-amount u0) ERR-INVALID-AMOUNT)
+    
+    ;; Burn underwater position
+    (try! (ft-burn? btc-stable-coin liquidation-amount underwater-address))
+    
+    (ok true)
+  ))
+)
