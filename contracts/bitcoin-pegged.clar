@@ -42,3 +42,22 @@
     (ok stablecoin-amount)
   ))
 )
+
+;; Redeem stablecoins for BTC
+(define-public (redeem-stablecoin (stablecoin-amount uint))
+  (let (
+    (current-btc-price (unwrap! (get-btc-price) ERR-UNAUTHORIZED))
+    (btc-equivalent (/ (* stablecoin-amount PRECISION) current-btc-price))
+  )
+  (begin
+    ;; Validate redemption parameters
+    (asserts! (> stablecoin-amount u0) ERR-INVALID-AMOUNT)
+    (asserts! (<= stablecoin-amount (ft-get-balance btc-stable-coin tx-sender)) ERR-INSUFFICIENT-RESERVES)
+    
+    ;; Burn tokens and update reserves
+    (try! (ft-burn? btc-stable-coin stablecoin-amount tx-sender))
+    (var-set total-reserves (- (var-get total-reserves) btc-equivalent))
+    
+    (ok btc-equivalent)
+  ))
+)
