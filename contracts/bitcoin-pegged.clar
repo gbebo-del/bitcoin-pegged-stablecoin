@@ -23,3 +23,22 @@
 ;; Reserves tracking
 (define-data-var total-reserves u0)
 (define-data-var collateralization-ratio u100) ;; 100% over-collateralization
+
+;; Mint new stablecoins
+(define-public (mint-stablecoin (btc-amount uint))
+  (let (
+    (current-btc-price (unwrap! (get-btc-price) ERR-UNAUTHORIZED))
+    (stablecoin-amount (/ (* btc-amount current-btc-price) PRECISION))
+  )
+  (begin
+    ;; Validate mint parameters
+    (asserts! (> btc-amount u0) ERR-INVALID-AMOUNT)
+    (asserts! (can-mint stablecoin-amount) ERR-INSUFFICIENT-RESERVES)
+    
+    ;; Update reserves and mint tokens
+    (var-set total-reserves (+ (var-get total-reserves) btc-amount))
+    (try! (ft-mint? btc-stable-coin stablecoin-amount tx-sender))
+    
+    (ok stablecoin-amount)
+  ))
+)
