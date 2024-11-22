@@ -15,7 +15,7 @@
 
 ;; Oracle price feed contract (simulated)
 (define-read-only (get-btc-price)
-  (ok u50000_00)) ;; Example: BTC price at $50,000
+  (ok u5000000)) ;; Example: BTC price at $50,000
 
 ;; Stablecoin token
 (define-fungible-token btc-stable-coin)
