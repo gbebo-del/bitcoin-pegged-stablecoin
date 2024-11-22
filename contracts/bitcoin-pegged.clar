@@ -16,3 +16,10 @@
 ;; Oracle price feed contract (simulated)
 (define-read-only (get-btc-price)
   (ok u50000_00)) ;; Example: BTC price at $50,000
+
+;; Stablecoin token
+(define-fungible-token btc-stable-coin)
+
+;; Reserves tracking
+(define-data-var total-reserves u0)
+(define-data-var collateralization-ratio u100) ;; 100% over-collateralization
