@@ -102,3 +102,12 @@
     (ok true)
   )
 )
+
+;; View functions
+(define-read-only (get-total-reserves)
+  (var-get total-reserves)
+)
+
+(define-read-only (get-stablecoin-supply)
+  (ft-get-total-supply btc-stable-coin)
+)
