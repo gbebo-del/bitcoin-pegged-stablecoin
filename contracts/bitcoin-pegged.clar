@@ -21,8 +21,8 @@
 (define-fungible-token btc-stable-coin)
 
 ;; Reserves tracking
-(define-data-var total-reserves u0)
-(define-data-var collateralization-ratio u100) ;; 100% over-collateralization
+(define-data-var total-reserves uint u0)
+(define-data-var collateralization-ratio uint u100) ;; 100% over-collateralization
 
 ;; Mint new stablecoins
 (define-public (mint-stablecoin (btc-amount uint))
